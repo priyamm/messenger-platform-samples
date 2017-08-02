@@ -252,7 +252,7 @@ function receivedMessage(event) {
   if(message.nlp) {
     console.log('NLP Executing');
     var msg = handleMessage(message);
-    if(msg)
+    if(msg && !(messageText.includes("send") || messageText.includes("images")))
     return sendTextMessage(senderID, msg);
     console.log('NLP Executing');
   }
@@ -892,10 +892,10 @@ function handleMessage(message) {
   const thanks = firstEntity(message.nlp, 'thanks');
   const bye = firstEntity(message.nlp, 'bye');
   if ((thanks && thanks.confidence > 0.8) || (bye && bye.confidence > 0.8)) {
-    return "Anytime. That''swhat I''m for ";
+    return "Anytime. That's what I'm for ";
   }
-  if (greeting && greeting.confidence > 0.8) {
-    return 'Hii, there...!!';
+  if (greeting && greeting.confidence > 0.95) {
+    return "Hii, there...!!";
   }
   return;
 }
