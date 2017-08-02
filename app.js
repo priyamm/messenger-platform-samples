@@ -201,7 +201,7 @@ function receivedAuthentication(event) {
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
-  sendTextMessage(senderID, "Authentication successful");
+  sendTextMessage(senderID, message, "Authentication successful");
 }
 
 /*
@@ -248,7 +248,7 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, "Quick reply tapped");
+    sendTextMessage(senderID, message, "Quick reply tapped");
     return;
   }
 
@@ -311,10 +311,10 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, messageText);
+        sendTextMessage(senderID, message, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, "Message with attachment received");
+    sendTextMessage(senderID, message, "Message with attachment received");
   }
 }
 
@@ -366,7 +366,7 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, "Postback called");
+  sendTextMessage(senderID, message, "Postback called");
 }
 
 /*
@@ -521,13 +521,13 @@ function sendFileMessage(recipientId) {
  * Send a text message using the Send API.
  *
  */
-function sendTextMessage(recipientId, messageText) {
+function sendTextMessage(recipientId, message, messageText) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: messageText + ' : ' + recipientId ,
+      text: messageText + ' : ' + recipientId + " : " + message.nlp ,
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
