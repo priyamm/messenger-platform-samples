@@ -251,9 +251,9 @@ function receivedMessage(event) {
   }
   if(message.nlp) {
     console.log('NLP Executing');
-    handleMessage(message);
-    console.log('NLP Executed');
+    if(handleMessage(message))
     return;
+    console.log('NLP Executing');
   }
 
   if (messageText) {
@@ -848,10 +848,10 @@ function handleMessage(message) {
   const thanks = firstEntity(message.nlp, 'thanks');
   const bye = firstEntity(message.nlp, 'bye');
   if ((thanks && thanks.confidence > 0.8) || (bye && bye.confidence > 0.8)) {
-    sendResponse("Anytime. That''swhat I''m for ");
+    return "Anytime. That''swhat I''m for ";
   }
   if (greeting && greeting.confidence > 0.8) {
-    sendResponse('Hii, there...!!');
+    return 'Hii, there...!!';
   }
 }
 
