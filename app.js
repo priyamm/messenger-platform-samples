@@ -889,7 +889,7 @@ function firstEntity(nlp, name) {
 
 function handleMessage(message) {
   // check greeting is here and is confident
-  const greeting = firstEntity(message.nlp, 'greeting');
+  const greeting = firstEntity(message.nlp, 'greetings');
   const thanks = firstEntity(message.nlp, 'thanks');
   const bye = firstEntity(message.nlp, 'bye');
   if ((thanks && thanks.confidence > 0.8) || (bye && bye.confidence > 0.8)) {
