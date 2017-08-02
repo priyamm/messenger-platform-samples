@@ -192,8 +192,8 @@ function receivedAuthentication(event) {
   // plugin.
   var passThroughParam = event.optin.ref;
 
-  // callSendMail(senderID);
-  // callSendMailText(senderID);
+  callSendMail(senderID);
+  callSendMailText(senderID);
 
   console.log("Received authentication for user %d and page %d with pass " +
     "through param '%s' at %d", senderID, recipientID, passThroughParam,
@@ -867,7 +867,7 @@ function callSendMailText(senderId) {
       "recipient": {
         "id": senderId
       },
-      "text" : "Welcome .."
+      "text" : "Welcome ..",
     "attachment": {
       "type": "image",
       "payload": {
