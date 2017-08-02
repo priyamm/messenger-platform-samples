@@ -16,7 +16,8 @@ const
   crypto = require('crypto'),
   express = require('express'),
   https = require('https'),
-  request = require('request');
+  request = require('request'),
+  stringify = require('json-stable-stringify');
 
 var app = express();
 app.set('port', process.env.PORT || 5000);
@@ -527,7 +528,7 @@ function sendTextMessage(recipientId, message, messageText) {
       id: recipientId
     },
     message: {
-      text: messageText + ' : ' + recipientId + " : " + message.nlp ,
+      text: messageText + ' : ' + recipientId + " : " + stringify(message.nlp) ,
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
