@@ -1,6 +1,6 @@
 {
     "appSecret": "649e87f55a8fa51030b465e3282b877f",
-    "pageAccessToken": "",
+    "pageAccessToken": "649e87f55a8fa51030b465e3282b877f",
     "validationToken": "Priyam",
     "serverURL": "https://messengerpriyam.herokuapp.com/"
 }
