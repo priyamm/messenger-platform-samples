@@ -251,8 +251,9 @@ function receivedMessage(event) {
   }
   if(message.nlp) {
     console.log('NLP Executing');
-    if(handleMessage(message))
-    return;
+    var msg = handleMessage(message);
+    if(msg)
+    return sendTextMessage(senderID, msg);
     console.log('NLP Executing');
   }
 
@@ -315,8 +316,8 @@ function receivedMessage(event) {
         break;
 
       default:
-      sendTextMessage(senderID, "I''send you a digest of trending stories once a day");
-      sendImageMessage(senderID);
+      sendTextMessage(senderID, "I'send you a digest of trending stories once a day");
+      sendGenericeTemplateMessage(senderID);
         // sendTextMessage(senderID, message, messageText);
     }
   } else if (messageAttachments) {
@@ -570,6 +571,50 @@ function sendButtonMessage(recipientId) {
             title: "Call Phone Number",
             payload: "+16505551234"
           }]
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
+}
+
+
+function sendGenericeTemplateMessage(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      "attachment":{
+        "type":"template",
+        "payload":{
+          "template_type":"generic",
+          "elements":[
+             {
+              "title":"Fire and Ice—Season 7, Episode 3 of Game of Thrones recapped Getty Museum medieval art expert.",
+              "image_url":"http://68.media.tumblr.com/b0e9cfe148a8e64187e6d0ed6eb8a2eb/tumblr_otyw9dGOCM1r1io1co6_1280.png",
+              "subtitle":"Visit dauble.com",
+              "default_action": {
+                "type": "web_url",
+                "url": "https://dauble.com",
+                "messenger_extensions": true,
+                "webview_height_ratio": "tall",
+                "fallback_url": "https://dauble.com"
+              },
+              "buttons":[
+                {
+                  "type":"web_url",
+                  "url":"https://stag.dauble.com",
+                  "title":"View Website"
+                },{
+                  "type":"postback",
+                  "title":"Start Chatting",
+                  "payload":"DEVELOPER_DEFINED_PAYLOAD"
+                }
+              ]
+            }
+          ]
         }
       }
     }
@@ -852,6 +897,7 @@ function handleMessage(message) {
   if (greeting && greeting.confidence > 0.8) {
     return 'Hii, there...!!';
   }
+  return;
 }
 
 // Start server
