@@ -193,16 +193,13 @@ function receivedAuthentication(event) {
   // plugin.
   var passThroughParam = event.optin.ref;
 
-  callSendMail(senderID);
-  callSendMailText(senderID);
-
   console.log("Received authentication for user %d and page %d with pass " +
     "through param '%s' at %d", senderID, recipientID, passThroughParam,
     timeOfAuth);
 
   // When an authentication is received, we'll send a message back to the sender
   // to let them know it was successful.
-  sendTextMessage(senderID, message, "Authentication successful");
+  sendTextMessage(senderID, "Authentication successful");
 }
 
 /*
@@ -249,7 +246,13 @@ function receivedMessage(event) {
     console.log("Quick reply for message %s with payload %s",
       messageId, quickReplyPayload);
 
-    sendTextMessage(senderID, message, "Quick reply tapped");
+    sendTextMessage(senderID, "Quick reply tapped");
+    return;
+  }
+  if(message.nlp) {
+    console.log('NLP Executing');
+    handleMessage(message);
+    console.log('NLP Executed');
     return;
   }
 
@@ -312,10 +315,12 @@ function receivedMessage(event) {
         break;
 
       default:
-        sendTextMessage(senderID, message, messageText);
+      sendTextMessage(senderID, "I''send you a digest of trending stories once a day");
+      sendImageMessage(senderID);
+        // sendTextMessage(senderID, message, messageText);
     }
   } else if (messageAttachments) {
-    sendTextMessage(senderID, message, "Message with attachment received");
+    sendTextMessage(senderID, "Message with attachment received");
   }
 }
 
@@ -367,7 +372,7 @@ function receivedPostback(event) {
 
   // When a postback is called, we'll send a message back to the sender to
   // let them know it was successful
-  sendTextMessage(senderID, message, "Postback called");
+  sendTextMessage(senderID, "Postback called");
 }
 
 /*
@@ -418,10 +423,12 @@ function sendImageMessage(recipientId) {
       id: recipientId
     },
     message: {
+      text: "Fire and Ice—Season 7, Episode 3 of Game of Thrones recapped Getty Museum medieval art expert.",
       attachment: {
         type: "image",
         payload: {
-          url: SERVER_URL + "/assets/rift.png"
+          // url: SERVER_URL + "/assets/rift.png"
+          url: "http://68.media.tumblr.com/b0e9cfe148a8e64187e6d0ed6eb8a2eb/tumblr_otyw9dGOCM1r1io1co6_1280.png"
         }
       }
     }
@@ -522,13 +529,13 @@ function sendFileMessage(recipientId) {
  * Send a text message using the Send API.
  *
  */
-function sendTextMessage(recipientId, message, messageText) {
+function sendTextMessage(recipientId, messageText) {
   var messageData = {
     recipient: {
       id: recipientId
     },
     message: {
-      text: messageText + ' : ' + recipientId + " : " + stringify(message.nlp) ,
+      text: messageText ,
       metadata: "DEVELOPER_DEFINED_METADATA"
     }
   };
@@ -831,61 +838,21 @@ function callSendAPI(messageData) {
   });
 }
 
-function callSendMail(senderId) {
-  request({
-    uri: 'https://graph.facebook.com/me/messages?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD',
-    method: 'POST',
-    json: {
-      "message": {
-      "recipient": {
-        "id": senderId
-      },
-    "attachment": {
-      "type": "image",
-      "payload": {
-        "url": "https://petersapparel.parseapp.com/img/shirt.png",
-        "is_reusable": true
-      }
-    }
-  }}
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-
-
-
-    } else {
-      console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
-    }
-  });
+function firstEntity(nlp, name) {
+  return nlp && nlp.entities && nlp.entities && nlp.entities[name] && nlp.entities[name][0];
 }
 
-function callSendMailText(senderId) {
-  request({
-    uri: 'https://graph.facebook.com/me/messages?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD',
-    method: 'POST',
-    json: {
-      "message": {
-      "recipient": {
-        "id": senderId
-      },
-      "text" : "Welcome ..",
-    "attachment": {
-      "type": "image",
-      "payload": {
-        "url": "https://petersapparel.parseapp.com/img/shirt.png",
-        "is_reusable": true
-      }
-    }
-  }}
-  }, function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-
-
-
-    } else {
-      console.error("Failed calling Send API", response.statusCode, response.statusMessage, body.error);
-    }
-  });
+function handleMessage(message) {
+  // check greeting is here and is confident
+  const greeting = firstEntity(message.nlp, 'greeting');
+  const thanks = firstEntity(message.nlp, 'thanks');
+  const bye = firstEntity(message.nlp, 'bye');
+  if ((thanks && thanks.confidence > 0.8) || (bye && bye.confidence > 0.8)) {
+    sendResponse("Anytime. That''swhat I''m for ");
+  }
+  if (greeting && greeting.confidence > 0.8) {
+    sendResponse('Hii, there...!!');
+  }
 }
 
 // Start server
