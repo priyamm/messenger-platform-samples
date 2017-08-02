@@ -221,10 +221,11 @@ function receivedMessage(event) {
   var recipientID = event.recipient.id;
   var timeOfMessage = event.timestamp;
   var message = event.message;
+  console.log("Event : " + event);
 
   console.log("Received message for user %d and page %d at %d with message:",
     senderID, recipientID, timeOfMessage);
-  console.log(JSON.stringify(message));
+  console.log("Message" + JSON.stringify(message));
 
   var isEcho = message.is_echo;
   var messageId = message.mid;
@@ -894,7 +895,7 @@ function handleMessage(message) {
   if ((thanks && thanks.confidence > 0.8) || (bye && bye.confidence > 0.8)) {
     return "Anytime. That's what I'm for ";
   }
-  if (greeting && greeting.confidence > 0.95) {
+  if (greeting && greeting.confidence > 0.92) {
     return "Hii, there...!!";
   }
   return;
