@@ -423,7 +423,6 @@ function sendImageMessage(recipientId) {
       id: recipientId
     },
     message: {
-      text: "Fire and Ice—Season 7, Episode 3 of Game of Thrones recapped Getty Museum medieval art expert.",
       attachment: {
         type: "image",
         payload: {

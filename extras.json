@@ -1,0 +1,83 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "get_started":{
+    "payload":"Get Started"
+  }
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
+
+
+curl -X GET "https://graph.facebook.com/v2.6/me/messenger_profile?fields=get_started&access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "recipient":{
+  	"id":"1284641408311531"
+  },
+  "message": {
+    "attachment": {
+      "type": "image",
+      "payload": {
+        "url": "http://graphics8.nytimes.com/images/2013/05/21/technology/21-baby/21-baby-custom1.gif",
+        "is_reusable": true
+      }
+    }
+  }
+}' "https://graph.facebook.com/me/messages?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
+
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "recipient":{
+  	"id":"1284641408311531"
+  },
+  "message":{
+  	"text":"hello, world!"
+  }
+}' "https://graph.facebook.com/v2.6/me/messages?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "whitelisted_domains":[
+    "http://68.media.tumblr.com/",
+    "https://dauble.com"
+  ]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
+
+
+curl -X POST -H "Content-Type: application/json" -d '{
+  "recipient":{
+    "id":"1284641408311531"
+  },
+  "message":{
+    "attachment":{
+      "type":"template",
+      "payload":{
+        "template_type":"generic",
+        "elements":[
+           {
+            "title":"Fire and Ice—Season 7, Episode 3 of Game of Thrones recapped Getty Museum medieval art expert.",
+            "image_url":"http://68.media.tumblr.com/b0e9cfe148a8e64187e6d0ed6eb8a2eb/tumblr_otyw9dGOCM1r1io1co6_1280.png",
+            "subtitle":"Visit dauble.com",
+            "default_action": {
+              "type": "web_url",
+              "url": "https://dauble.com",
+              "messenger_extensions": true,
+              "webview_height_ratio": "tall",
+              "fallback_url": "https://dauble.com"
+            },
+            "buttons":[
+              {
+                "type":"web_url",
+                "url":"https://stag.dauble.com",
+                "title":"View Website"
+              },{
+                "type":"postback",
+                "title":"Start Chatting",
+                "payload":"DEVELOPER_DEFINED_PAYLOAD"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}' "https://graph.facebook.com/v2.6/me/messages?access_token=EAAF8z5urte0BAAtE7Qr88lLadsXsixndUFCOSNFM7eYIWe5KZBuhuCNZBhmQyCc1hxX7gLrtdnk6XIz2z4IyZCZBL7ZA9Os88oAteGBgVkuPxPHlnXNAMHGmKEpiHq47H4HSrROHOR60LdYsZCDAbzTmTGZAJwrKvnEZAVFzSRuzrgZDZD"
